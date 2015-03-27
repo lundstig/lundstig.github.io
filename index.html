@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+	<title>Karl Lundstig</title>
+	<meta charset="utf-8">
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+	<style>
+
+		body {
+			background-color: #141414;
+		}
+
+		img {
+			border-radius: 5px;
+		}
+
+		h1 {
+			font-family: Lato;
+			font-size: 72px;
+			color: #fff;
+			font-weight: 100;
+		}
+
+		h2 {
+			color: #eee;
+			font-family: Lato;
+			font-size: 32px;
+			font-weight:100;
+			margin-bottom: 5px;
+			margin-top: 30px;
+		}
+
+		p, a {
+			color: #ccc;
+			font-family: Lato;
+			font-size: 16px;
+		}
+
+		ul {
+			color: #ccc;
+			list-style: circle;
+		}
+
+		.center {
+			margin-left: auto;
+			margin-right: auto;
+			/*text-align: center;*/
+		}
+
+		#box {
+			display: inline-block;
+			/*background-color: #aaa;*/
+			height: 300px;
+			/*width: 700px;*/
+			float: left;
+		}
+
+		.container {
+			margin-left: 100px;
+			width: 800px;
+		}
+	</style>
+</head>
+
+<body class="center">
+	<div class="container">
+		<div class="center" id="box">
+			<h1>KARL<br>LUNDSTIG</h1>
+			<h2>Vad är klockan?</h2>
+			<p id="time">Klockan är en rund sak som hänger på väggen! Du har javascript av :(</p>
+		</div>
+	</div>
+</body>
+
+<script defer="true">
+	function toText(num)
+	{
+		if (num == 10) return "tio";
+		if (num == 11) return "elva";
+		if (num == 12) return "tolv";
+		if (num == 13) return "tretton";
+		if (num == 14) return "fjorton";
+		if (num == 15) return "femton";
+		if (num == 16) return "sexton";
+		if (num == 17) return "sjutton";
+		if (num == 18) return "arton";
+		if (num == 19) return "nitton";
+		var ret = "";
+		switch(Math.floor(num / 10)) {
+			case 2: ret += "tjugo"; break;
+			case 3: ret += "trettio"; break;
+			case 4: ret += "fyrtio"; break;
+			case 5: ret += "femtio"; break;
+		}
+		num -= 10 * Math.floor(num / 10);
+		switch (num) {
+			case 1: ret += "en"; break;
+			case 2: ret += "två"; break;
+			case 3: ret += "tre"; break;
+			case 4: ret += "fyra"; break;
+			case 5: ret += "fem"; break;
+			case 6: ret += "sex"; break;
+			case 7: ret += "sju"; break;
+			case 8: ret += "åtta"; break;
+			case 9: ret += "nio"; break;
+		}
+
+		return ret;
+	}
+
+	function updateTime() {
+		var date = new Date();
+		document.getElementById('time').innerHTML = "Den är " + toText(date.getMinutes()) + " minuter över " + toText(date.getHours()) + ".";
+	}
+	updateTime();
+	setInterval(updateTime, 500);
+</script>
+
+</html>
