@@ -1,5 +1,144 @@
-$("#content").hide();$("#write").prop("disabled",!0);for(var chatting=!1,othername,username="";""===username||null===username;)username=window.prompt("What do you want to be called?","");var socket=new WebSocket("ws://chatter-krarl.rhcloud.com:8000");$(window).unload(function(){socket.send(JSON.stringify({type:"disconnect"}))});$("#send").click(function(){if(!$("end_new").hasClass("disabled")){var a=$("#write").val();""!=a&&(sendMessage(a),$("#write").val(""),writeToChat(a,"youtext","You"))}});
-$("#end_new").click(function(){$("end_new").hasClass("disabled")||(1==chatting?(socket.send(JSON.stringify({type:"end"})),endChat()):(newChat(),$("#end_new").addClass("disabled")))});$("#write").keyup(function(a){13==a.keyCode&&$("#send").click()});socket.onopen=function(a){socket.send(JSON.stringify({type:"name",data:username}));$(".spinner").fadeOut(500);$("#content").delay(600).fadeIn(500);newChat()};
-socket.onmessage=function(a){a=JSON.parse(a.data);"msg"==a.type?writeToChat(a.data,"othertext",othername):"connect"==a.type?(othername=a.data,writeToChat("Connected to "+othername+"!"),chatting=!0,$("#write").prop("disabled",!1),$("#send").removeClass("disabled"),$("#end_new").removeClass("disabled"),$("#end_new span").text("End"),$("#end_new").addClass("warning")):"ping"==a.type?socket.send(JSON.stringify({type:"pong"})):"end"==a.type?endChat():"disconnect"==a.type&&(writeToChat("Disconnected by server"),
-void 0!=a.data&&writeToChat("Reason: "+a.data),$("#write").prop("disabled",!0),$("#send").addClass("disabled"),$("#end_new").removeClass("warning"))};sendMessage=function(a){socket.send(JSON.stringify({type:"msg",data:a}))};writeToChat=function(a,c,b){void 0==b?$("#chat").append($("<p></p>").text(a)):(a=$("<p></p>").text(a),b=$("<scan class='"+c+"'></scan>").text(b+": "),a.prepend(b),$("#chat").append(a));$("#chat").scrollTop($("#chat")[0].scrollHeight)};
-endChat=function(){chatting=!1;$("#write").prop("disabled",!0);$("#send").addClass("disabled");$("#end_new span").text("New");$("#end_new").removeClass("warning");writeToChat("Chat ended")};newChat=function(){chatting&&endChat();$("#chat").empty();socket.send(JSON.stringify({type:"new"}));writeToChat("Looking for someone to talk to...")};
+$("#content").hide();
+$("#write").prop("disabled", true);
+
+var chatting = false;
+
+var othername;
+var username = "";
+while (username === "" || username === null)
+{
+	username = window.prompt("What do you want to be called?", "");
+}
+
+var socket = new WebSocket("ws://chatter-krarl.rhcloud.com:8000"); //måste vara efter prompten, annars slutar det att  fungera i firefox...
+
+$(window).unload(function() {
+	var disconnect = { type: "disconnect" };
+	socket.send(JSON.stringify(disconnect));
+});
+
+$("#send").click(function() {
+	if ($("end_new").hasClass("disabled")) return;
+
+	var message = $("#write").val();
+	if (message != "")
+	{
+		sendMessage(message);
+		$("#write").val("");
+		writeToChat(message, "youtext", "You");
+	}
+});
+
+$("#end_new").click(function() {
+	if ($("end_new").hasClass("disabled")) return;
+
+	if(chatting == true)
+	{
+		var end = { type: "end" };
+		socket.send(JSON.stringify(end));
+		endChat();
+	}
+	else
+	{
+		newChat();
+		$("#end_new").addClass("disabled");
+	}
+});
+
+$("#write").keyup(function(event){
+    if(event.keyCode == 13) { //enter
+		$("#send").click();
+	}
+});
+
+
+socket.onopen = function(msg) {
+	var message = { type: "name", data: username };
+	socket.send(JSON.stringify(message));
+
+	$(".spinner").fadeOut(500);
+	$("#content").delay(600).fadeIn(500);
+	newChat();
+};
+
+socket.onmessage = function(msg) {
+	var data = JSON.parse(msg.data);
+
+	if (data.type == "msg")
+	{
+		writeToChat(data.data, "othertext", othername);
+	}
+	else if (data.type == "start")
+	{
+		othername = data.data;
+		writeToChat("Connected to " + othername + "!");
+		chatting = true;
+		$("#write").prop("disabled", false);
+		$("#send").removeClass("disabled");
+		$("#end_new").removeClass("disabled");
+		$("#end_new span").text("End");
+		$("#end_new").addClass("warning");
+	}
+	else if (data.type == "ping")
+	{
+		var pong = { type: "pong" };
+		socket.send(JSON.stringify(pong));
+	}
+	else if (data.type == "end")
+	{
+		endChat();
+	}
+	else if (data.type == "disconnect")
+	{
+		writeToChat("Disconnected by server")
+		if (data.data != undefined)
+			writeToChat("Reason: " + data.data)
+		$("#write").prop("disabled", true);
+		$("#send").addClass("disabled");
+		$("#end_new").removeClass("warning");
+	}
+};
+
+sendMessage = function(message) {
+	var msg = {
+		type: "msg",
+		data: message
+	};
+
+	socket.send(JSON.stringify(msg));
+}
+
+writeToChat = function(text, headerclass, header) {
+	if (header == undefined)
+	{
+		$("#chat").append($("<p></p>").text(text));
+	}
+	else
+	{
+		var message = $("<p></p>").text(text);
+		var header = $("<scan class='" + headerclass + "'></scan>").text(header + ": ");
+		message.prepend(header);
+		$("#chat").append(message);
+	}
+	$('#chat').scrollTop($('#chat')[0].scrollHeight);
+}
+
+endChat = function() {
+	chatting = false;
+	$("#write").prop("disabled", true);
+	$("#send").addClass("disabled");
+	$("#end_new span").text("New");
+	$("#end_new").removeClass("warning");
+	writeToChat("Chat ended");
+}
+
+newChat = function() {
+	if (chatting)
+		endChat();
+	$("#chat").empty();
+
+	//be om att få en partner
+	var msg = { type: "new" };
+	socket.send(JSON.stringify(msg));
+	writeToChat("Looking for someone to talk to...");
+}
