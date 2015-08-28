@@ -16,7 +16,6 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-66801378-1', 'auto');
       ga('send', 'pageview');
     </script>
@@ -24,10 +23,11 @@
 
 <body class="center">
 	<h1>Chatter</h1>
+    <p id="info">Made by Karl Lundstig. <a href="about.html" target="_blank">About</a></p>
 	<div class="center" id="content">
 		<div id="chat"></div>
 		<div id="controls">
-			<input type="text" id="write"><br>
+			<input type="text" id="write" maxlength="300"><br>
 			<a class="button1 disabled" id="end_new"><span>End</span></a>
 			<a class="button1 disabled" id="send"><span>Send</span></a>
 		</div>
@@ -40,7 +40,6 @@
 	  <div class="rect4"></div>
 	  <div class="rect5"></div>
 	</div>
-
 </body>
 
 </html>
