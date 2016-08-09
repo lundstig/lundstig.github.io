@@ -6,9 +6,14 @@
   padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
   background-color: #201d28;
   position: relative;
+  min-height: 100%;
 }
 
 h1 {
@@ -18,6 +23,7 @@ h1 {
   font-weight: 700;
   margin-top: 20px;
   margin-bottom: 30px;
+  text-shadow: 0 0 3px #201d28;
 }
 
 h3 {
