@@ -191,6 +191,10 @@ a {
     text-align: center;
   }
 
+  p {
+    text-align: center;
+  }
+
   #contact {
     position: static;
     width: 100%;
