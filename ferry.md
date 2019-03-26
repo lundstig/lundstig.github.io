@@ -9,10 +9,10 @@ You will get the length of the ferry, and of the cars in the line. Your job is t
 
 **Figure 1:** An example of how the ferry could look after an optimal loading. The ferry is 5 meters long, and the length of the cars in the lane is [2, 1, 2, 5, 1, 1, 2, 1, 1, 2], of which only the first 8 fit.
 
-##Input
+## Input
 On the first line is an integer *N*, the number of cars (*N* <= 200). On the second line of input is an integer *L*, the length of the lanes (*L* <= 60). After this comes one line with *N* integers, where every integer is the length of a car. The cars are at least 1 and at most 10 meter long, and also at most *L* meters long. The cars are given in the same order as in the queue.
 
 *Subtask:* For 30% of the score it is guaranteed that *N* <= 20 and *L* <= 40.
 
-##Output
+## Output
 Output should be one integer: the largest number of cars that fits the ferry.
