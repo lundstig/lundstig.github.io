@@ -9,6 +9,8 @@ More accurately, every cherimoya is ripe for exactly 3 days. Before the three da
 
 Farah wants to get as much as possible from the cherimoya fruit season. She wants to maximize her pleasure, where pleasure is calculated like this: For a given day she gets 10 pleasure points for the first cherimoya, after that 9 for the second, 8 for the third and so on. She can never manage to eat more than 10 cherimoyas on a single day.
 
+Given how many cherimoyas turn ripe on each day, calculate the maximum amount of pleasure points Farah can get.
+
 ## Input
 You will get an integer *N*, and after that *N* integers *C<sub>i</sub>*. There are therefore *N*+2 days where you might want to eat cherimoyas. No single integer wll be larger than 30.
 
