@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Karl i Kina</title>
+    <link>http://lundstig.com/kinablogg/posts/</link>
+    <description>Recent content in Posts on Karl i Kina</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>sv-se</language>
+    <lastBuildDate>Tue, 01 Oct 2019 01:09:07 +0800</lastBuildDate>
+    
+	<atom:link href="http://lundstig.com/kinablogg/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Första månaden, första blogginlägget</title>
+      <link>http://lundstig.com/kinablogg/posts/first-month/</link>
+      <pubDate>Tue, 01 Oct 2019 01:09:07 +0800</pubDate>
+      
+      <guid>http://lundstig.com/kinablogg/posts/first-month/</guid>
+      <description>Tiden går snabbt när man har roligt, plötsligt har jag varit i Kina i över 1 månad! Tyvärr så dröjde det ända tills nu innan jag förstod att jag vill blogga, så min fantastiska nya blogg kommer att behöva några veckor för att kommma ikapp.
+  Massa vind som snurrar runt i 100km/h
+  Dagens överraskning var när vi fick en tyfonvarning(!) via SMS. Jag avfärdade direkt det här meddelandet som spam (både min bank och min mobiloperatör skickar dagligen oklara erbjudanden där jag kan vinna en Huawei-mobil, typ), men som tur var klistrade min rumskompis Nikola in varningen i Google Translate och berättade om tyfonen för mig.</description>
+    </item>
+    
+  </channel>
+</rss>
