@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Catch Mr. Goose</title>
+    <style>
+      /* Reset default margins and paddings */
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff;
+      }
+
+      /* Game container fills the viewport */
+      #game-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Goose image styling */
+      #goose {
+        position: absolute;
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+        user-select: none;
+        display: none; /* Initially hidden */
+      }
+
+      /* Prize message styling */
+      #prize-message {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s;
+        color: #ff4500;
+      }
+
+      #score {
+        position: absolute;
+        top: 10px;
+        left: 30px;
+        font-size: 24px;
+        color: black;
+      }
+    </style>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, 
+user-scalable=no"
+    />
+  </head>
+  <body>
+    <div id="game-container">
+      <p id="score">0</p>
+      <!-- Goose image (will be set dynamically) -->
+      <img id="goose" width="400" src="" alt="Goose" />
+      <div id="prize-message"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var goose = document.getElementById("goose");
+        var container = document.getElementById("game-container");
+        var prizeMessage = document.getElementById("prize-message");
+        var score = document.getElementById("score");
+        var consecutiveCatches = 0;
+        var moveTimeout;
+        var hideTimeout;
+        var minHideTime = 500; // Minimum hiding time in milliseconds
+        var maxHideTime = 3500; // Maximum hiding time in milliseconds
+        var minVisibleTime = 300;
+        var maxVisibleTime = 1000;
+
+        // Array of goose images (Replace these URLs with your own images)
+        var gooseImageURLs = [
+          "https://i.pinimg.com/736x/d4/4d/b8/d44db88c0c65def7a90a05c3ef01ceaa.jpg",
+          "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/a7cc1a83ec87b439e2e762eae009068c.jpg?imageMogr2/auto-orient%7CimageView2/2/w/300/q/70/format/webp",
+          "https://banner2.cleanpng.com/20240308/vtl/transparent-goose-swan-white-goose-long-neck-tilted-head-realistic-white-goose-with-webbed-feet-and-1710846064220.webp",
+          "https://makbaktoy.com/wp-content/uploads/2023/03/lying-goose-super-cute-plush-toy-for-home-decor-and-gift.webp-2-scaled.webp",
+          "https://ih1.redbubble.net/image.1434025892.4175/raf,360x360,075,t,fafafa:ca443f4786.jpg",
+          "https://www.shutterstock.com/image-vector/cute-goose-adorable-farm-birds-600nw-2437457639.jpg",
+          "https://ih1.redbubble.net/image.5298856201.2683/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg",
+        ];
+
+        var gooseImages = [];
+
+        // Preload images
+        for (var i = 0; i < gooseImageURLs.length; i++) {
+          var img = new Image();
+          img.src = gooseImageURLs[i];
+          gooseImages.push(img);
+        }
+
+        // Function to get a random integer between min and max (inclusive)
+        function getRandomInt(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Function to handle the goose appearing and disappearing
+        function moveGoose() {
+          // Hide the goose
+          goose.style.display = "none";
+
+          // Set a random hiding time
+          var hideTime = getRandomInt(minHideTime, maxHideTime);
+          var visibleTime = getRandomInt(minVisibleTime, maxVisibleTime);
+
+          // After the hiding time, show the goose
+          hideTimeout = setTimeout(function () {
+            // Move the goose to a random position
+            var containerWidth = container.clientWidth;
+            var containerHeight = container.clientHeight;
+            var gooseWidth = goose.offsetWidth;
+            var gooseHeight = goose.offsetHeight;
+
+            var maxX = containerWidth - 200;
+            var maxY = containerHeight - 200;
+
+            var randomX = Math.floor(Math.random() * maxX);
+            var randomY = Math.floor(Math.random() * maxY);
+
+            goose.style.left = randomX + "px";
+            goose.style.top = randomY + "px";
+
+            // Choose a random image
+            var randomImageIndex = getRandomInt(0, gooseImages.length - 1);
+            goose.src = gooseImages[randomImageIndex].src;
+
+            // Show the goose
+            goose.style.display = "block";
+
+            // Set a timeout for the visible time
+            clearTimeout(moveTimeout);
+            moveTimeout = setTimeout(function () {
+              // Goose disappears if not clicked in time
+              goose.style.display = "none";
+              consecutiveCatches = 0;
+              score.innerText = consecutiveCatches;
+              displayPrize("Too slow! Try again.");
+              moveGoose(); // Start the cycle again
+            }, visibleTime);
+          }, hideTime);
+        }
+
+        // Function called when the goose is clicked/tapped
+        function gooseClicked() {
+          consecutiveCatches++;
+          score.innerText = consecutiveCatches;
+
+          // Prize messages based on consecutive catches
+          if (consecutiveCatches === 5) {
+            displayPrize("You caught the goose 5 times! Halfway there...");
+          } else if (consecutiveCatches === 10) {
+            displayPrize("Grand Prize!");
+            setTimeout(function () {
+              alert("I love you! <3");
+              alert("Also, you caught the goose 10 times in a row!");
+              alert("You are a certified Goose Professional");
+              alert("So you deserve a prize...");
+              alert(
+                "You win:\nOne (1) free (!) Folkuniversitet Swedish course",
+              );
+              alert("You also win...");
+              alert(
+                "One voucher for a spa night at home, including your choice of food and drink",
+              );
+              alert("Looking forward to spending time with you in Spain!");
+              alert("And keep your eyes open for any geese...");
+              window.location.href =
+                "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+            }, 3000);
+          }
+
+          // Clear timeouts and hide the goose
+          clearTimeout(moveTimeout);
+          clearTimeout(hideTimeout);
+          goose.style.display = "none";
+          moveGoose(); // Start the cycle again
+        }
+
+        // Add event listeners for click and touch events
+        goose.addEventListener("click", gooseClicked);
+        goose.addEventListener(
+          "touchstart",
+          function (e) {
+            e.preventDefault(); // Prevents duplicate events on touch devices
+            gooseClicked();
+          },
+          { passive: false },
+        );
+
+        // Function to display prize messages
+        function displayPrize(message) {
+          prizeMessage.textContent = message;
+          prizeMessage.style.opacity = "1";
+          setTimeout(function () {
+            prizeMessage.style.opacity = "0";
+          }, 2000);
+        }
+
+        // Start the game
+        moveGoose();
+      });
+    </script>
+  </body>
+</html>
